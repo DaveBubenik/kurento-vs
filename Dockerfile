@@ -53,8 +53,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y kurento-media-s
  && rm -rf /var/lib/apt/lists/*
 
 # Update permissions on modules directory
-RUN chown -R kurento:kurento /usr/lib/x86_64-linux-gnu/gstreamer-1.5
-RUN chown -R kurento:kurento /usr/lib/x86_64-linux-gnu/kurento
+RUN chmod -R 777 /usr/lib/x86_64-linux-gnu/gstreamer-1.5
+RUN chmod -R 777 /usr/lib/x86_64-linux-gnu/kurento
 
 # configure SSH for communication with Visual Studio 
 RUN mkdir -p /var/run/sshd
