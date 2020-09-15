@@ -1,5 +1,11 @@
 # our local base image
-FROM ubuntu:bionic 
+ARG UBUNTU_CODENAME="bionic"
+
+FROM ubuntu:${UBUNTU_CODENAME}
+
+ARG UBUNTU_CODENAME="bionic"
+ARG KMS_VERSION="6.14.0"
+
 
 LABEL description="Container for building/debugging Kurento in Visual Studio" 
 
@@ -15,7 +21,7 @@ RUN echo "kurento:1234" | chpasswd
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AFA7A83
 # Add the repository to Apt
-RUN echo "deb [arch=amd64] http://ubuntu.openvidu.io/dev bionic kms6" > "/etc/apt/sources.list.d/kurento.list"
+RUN echo "deb [arch=amd64] http://ubuntu.openvidu.io/${KMS_VERSION} ${UBUNTU_CODENAME} kms6" > "/etc/apt/sources.list.d/kurento.list"
 
 # Install Kurento Media Server
 RUN apt-get -q update && apt-get -q install --no-install-recommends --yes \
@@ -41,8 +47,8 @@ RUN apt-get -q update && apt-get -q install --no-install-recommends --yes \
 RUN apt-key adv \
         --keyserver keyserver.ubuntu.com \
         --recv-keys F2EDC64DC5AEE1F6B9C621F0C8CAB6595FDFF622 \
- && echo "deb http://ddebs.ubuntu.com bionic main restricted universe multiverse" >/etc/apt/sources.list.d/ddebs.list \
- && echo "deb http://ddebs.ubuntu.com bionic-updates main restricted universe multiverse" >>/etc/apt/sources.list.d/ddebs.list \
+ && echo "deb http://ddebs.ubuntu.com ${UBUNTU_CODENAME} main restricted universe multiverse" >/etc/apt/sources.list.d/ddebs.list \
+ && echo "deb http://ddebs.ubuntu.com ${UBUNTU_CODENAME}-updates main restricted universe multiverse" >>/etc/apt/sources.list.d/ddebs.list \
  && apt-get -q update \
  && apt-get -q install --no-install-recommends --yes \
         kurento-dbg \
